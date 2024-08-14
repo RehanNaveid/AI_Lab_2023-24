@@ -20,7 +20,8 @@ graph={
     "C":["F","G"],
     "D":[],
     "E":[],
-    "8":[ ],
+    "F":[],
+    "G":[]
 }
 visited=[]
 queue=[]
@@ -36,13 +37,14 @@ def bfs(visited,graph,node):
                 queue.append(neighbour)
 
 print("Following is the breadth first search")
-bfs(visited,graph,'5')
+bfs(visited,graph,'A')
     
 ```
 
 ### Output:
 
-![image](https://github.com/user-attachments/assets/3d393e93-fc31-41fb-8024-16a5dec9a4d3)
+![image](https://github.com/user-attachments/assets/c499dd27-04e5-4ba4-9dad-92308332bc1d)
+
 
 
 ### Result:
