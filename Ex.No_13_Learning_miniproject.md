@@ -7,43 +7,77 @@ To write a program to train the classifier for -----------------.
 
 ### Program:
 ```
-from google.colab import drive
-drive.mount('/content/gdrive')
-#import packages
-import numpy as np
 import pandas as pd
-pip install gradio
-import gradio as gr
-import pandas as pd
-cd /content/gdrive/MyDrive/demo/gradio_project-main
-data = pd.read_csv('diabetes.csv')
-data.head()
-print(data.columns)
-x = data.drop(['Outcome'], axis=1)
-y = data['Outcome']
-print(x[:5])
+from sklearn.ensemble import RandomForestClassifier  # or any other model
 from sklearn.model_selection import train_test_split
-x_train, x_test, y_train, y_test= train_test_split(x,y)
-from sklearn.preprocessing import StandardScaler
-scaler = StandardScaler()
-x_train_scaled = scaler.fit_transform(x_train)
-x_test_scaled = scaler.fit_transform(x_test)
-from sklearn.neural_network import MLPClassifier
-model = MLPClassifier(max_iter=1000, alpha=1)
-model.fit(x_train, y_train)
-print("Model Accuracy on training set:", model.score(x_train, y_train))
-print("Model Accuracy on Test Set:", model.score(x_test, y_test))
-print(data.columns)
-def diabetes(Pregnancies, Glucose, Blood_Pressure, SkinThickness, Insulin, BMI,Diabetes_Pedigree, Age):
-    x = np.array([Pregnancies,Glucose,Blood_Pressure,SkinThickness,Insulin,BMI,Diabetes_Pedigree,Age])
-    prediction = model.predict(x.reshape(1, -1))
-    if(prediction==0):
-      return "NO"
-    else:
-      return "YES"
-outputs = gr.Textbox()
-app = gr.Interface(fn=diabetes, inputs=['number','number','number','number','number','number','number','number'], outputs=outputs,description="Detection of Diabeties")
-app.launch(share=True)
+import pickle
+
+# Load your dataset
+data = pd.read_csv('WineQT.csv')  # Update with your dataset path
+
+# Define features and target
+X = data.drop(columns=['quality', 'Id'])  # Features
+y = data['quality']  # Target variable
+
+# Split the dataset (optional)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the model
+model = RandomForestClassifier()  # or any other model
+model.fit(X_train, y_train)
+
+# Save the model
+with open('wine_quality_model.pkl', 'wb') as f:
+    pickle.dump(model, f)
+```
+```
+import streamlit as st
+import pandas as pd
+import pickle
+
+# Load the pre-trained model
+model_path = 'wine_quality_model.pkl'  # Update this path to your model file
+with open(model_path, 'rb') as f:
+    model = pickle.load(f)
+
+# Define the feature names used during training (without 'quality')
+feature_names = [
+    "fixed acidity", "volatile acidity", "citric acid", "residual sugar",
+    "chlorides", "free sulfur dioxide", "total sulfur dioxide", "density",
+    "pH", "sulphates", "alcohol"
+]
+
+# Streamlit app title
+st.title("Wine Quality Predictor")
+
+# Create input fields for each parameter
+fixed_acidity = st.number_input("Fixed acidity", min_value=0.0)
+volatile_acidity = st.number_input("Volatile acidity", min_value=0.0)
+citric_acid = st.number_input("Citric acid", min_value=0.0)
+residual_sugar = st.number_input("Residual sugar", min_value=0.0)
+chlorides = st.number_input("Chlorides", min_value=0.0)
+free_sulfur_dioxide = st.number_input("Free sulfur dioxide", min_value=0.0)
+total_sulfur_dioxide = st.number_input("Total sulfur dioxide", min_value=0.0)
+density = st.number_input("Density", min_value=0.0)
+pH = st.number_input("pH", min_value=0.0)
+sulphates = st.number_input("Sulphates", min_value=0.0)
+alcohol = st.number_input("Alcohol", min_value=0.0)
+
+# Create a button to make the prediction
+if st.button("Predict Wine Quality"):
+    # Prepare input data for prediction as a DataFrame with correct feature names
+    user_data = pd.DataFrame([[fixed_acidity, volatile_acidity, citric_acid, residual_sugar, chlorides,
+                                free_sulfur_dioxide, total_sulfur_dioxide, density, pH, sulphates, alcohol]],
+                              columns=feature_names)
+
+    # Make prediction
+    try:
+        predicted_quality = model.predict(user_data)
+
+        # Display the result
+        st.success(f"Predicted wine quality: {predicted_quality[0]}")
+    except ValueError as e:
+        st.error(f"Error in prediction: {str(e)}")
 ```
 ### Output:
 
