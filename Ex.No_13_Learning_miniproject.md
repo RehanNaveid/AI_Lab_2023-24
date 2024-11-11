@@ -1,10 +1,44 @@
 # Ex.No: 13 Learning – Use Supervised Learning  
 ### DATE:                                                                            
-### REGISTER NUMBER : 212222040124
+### REGISTER NUMBER : 212222060197
 ### AIM: 
-To write a program to train the classifier for -----------------.
+To write a program to train the classifier for Wine Quality Prediction.
 ###  Algorithm:
+Step 1: Start the program.
 
+Step 2: Import necessary libraries:
+
+pandas for data handling.
+sklearn for model creation and dataset splitting.
+pickle for model persistence.
+Step 3: Load the wine quality dataset from a CSV file.
+
+Step 4: Define the features and target variable:
+
+Set X as the dataset features (excluding "quality" and any unique identifiers).
+Set y as the target variable, which is "quality".
+Step 5: Split the dataset into training and testing sets to evaluate model performance.
+
+Step 6: Train a RandomForestClassifier on the training data using X_train and y_train.
+
+Step 7: Save the trained model as a .pkl file using pickle for future use.
+
+Step 8: Create a Streamlit web app:
+
+Load the saved model file.
+Define input fields for each wine feature using st.number_input for user input.
+Step 9: Capture user inputs for all wine quality features:
+
+For each feature (e.g., "Fixed acidity," "Volatile acidity"), take user inputs within appropriate ranges.
+Step 10: Define a prediction button:
+
+When pressed, prepare user data in the required format.
+Use the loaded model to predict wine quality based on the input features.
+Step 11: Display the predicted wine quality to the user:
+
+If successful, show the result.
+If an error occurs, display an appropriate error message.
+Step 12: Stop the program.
 ### Program:
 ```
 import pandas as pd
@@ -81,10 +115,9 @@ if st.button("Predict Wine Quality"):
 ```
 ### Output:
 
-https://352a80ed64654063e9.gradio.live/
 
-![image](https://github.com/user-attachments/assets/2b652215-c532-4993-be9a-4546b4d57445)
 
+![Screenshot 2024-11-07 230858](https://github.com/user-attachments/assets/2ebd3a29-77ee-4250-84eb-f02b4f7da278)
 
 
 
