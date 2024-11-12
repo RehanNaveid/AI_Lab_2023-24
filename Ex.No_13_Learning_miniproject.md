@@ -1,5 +1,5 @@
-# Ex.No: 13 Learning – Use Supervised Learning  
-### DATE:                                                                            
+# Ex.No: 13   Machine Learning – MiniProject
+### DATE:4/11/24                                                                       
 ### REGISTER NUMBER : 212222060197
 ### AIM: 
 To write a program to train the classifier for Wine Quality Prediction.
